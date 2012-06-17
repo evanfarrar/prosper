@@ -14,4 +14,8 @@ Gem::Specification.new do |gem|
   gem.name          = "prosper"
   gem.require_paths = ["lib"]
   gem.version       = Prosper::VERSION
+  gem.add_development_dependency "rspec-rails"
+  gem.add_development_dependency "guard-rspec"
+  gem.add_dependency "httparty"
+  gem.add_dependency "lolsoap"
 end
