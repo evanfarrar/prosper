@@ -15,6 +15,19 @@ module Prosper
     result["LoginResult"]["Message"]
   end
 
+  def self.loans
+    request = soap.request("Query")
+    request.body do |b|
+      b.authentication_token @@login_token
+      b.objectType "Loan"
+      b.fields "Key,AmountBorrowed,OriginationDate"
+      b.conditionExpression "AmountBorrowed > 0"
+    end
+    response = HTTParty.post(request.url, :headers => request.headers, :body => request.content)
+    result = soap.response(request, response.body).body_hash
+    result["QueryResult"]["ProsperObjects"]["ProsperObject"]
+  end
+
 private
   def self.soap
     @@soap ||= LolSoap::Client.new(open('https://services.prosper.com/ProsperAPI/ProsperAPI.asmx?WSDL').read)

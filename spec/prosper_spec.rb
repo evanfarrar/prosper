@@ -17,4 +17,13 @@ describe Prosper do
     end
 
   end
+
+  describe "loans" do
+    it "should return all loans" do
+      Prosper.login(ENV['PROSPERUSERNAME'], ENV['PROSPERPASSWORD'])
+      loans = Prosper.loans
+      loans.length.should be > 100
+      #loans.length.should be > 200 Pagination!
+    end
+  end
 end
