@@ -18,4 +18,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "guard-rspec"
   gem.add_dependency "httparty"
   gem.add_dependency "lolsoap"
+  gem.add_dependency "facets"
 end

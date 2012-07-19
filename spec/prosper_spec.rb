@@ -23,7 +23,7 @@ describe Prosper do
       Prosper.login(ENV['PROSPERUSERNAME'], ENV['PROSPERPASSWORD'])
       loans = Prosper.loans
       loans.length.should be > 100
-      #loans.length.should be > 200 Pagination!
+      loans.length.should be > 2000 #Pagination!
     end
   end
 end
