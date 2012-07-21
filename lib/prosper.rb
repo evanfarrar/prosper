@@ -20,6 +20,13 @@ module Prosper
     (100..20_000).to_a.each_slice(1000).map{|a|[a.first,a.last]}.each do |min, max|
       loans << getloans(min, max)
     end
+    puts "< 20_000 #{loans.flatten.length}"
+    (20_000..100_000).to_a.each_slice(1_000).map{|a|[a.first,a.last]}.each do |min, max|
+      loans << getloans(min, max)
+    end
+    puts "< 100_000 #{loans.flatten.length}"
+    loans << getloans(100_000, 1_000_000)
+    puts "< 1_000_000 #{loans.flatten.length}"
     loans.flatten
   end
 
@@ -34,10 +41,12 @@ private
       b.authentication_token @@login_token
       b.objectType "Loan"
       b.fields "Key,AmountBorrowed,OriginationDate"
-      b.conditionExpression "AmountBorrowed > #{min} AND AmountBorrowed < #{max}"
+      b.conditionExpression "AmountBorrowed >= #{min} AND AmountBorrowed <= #{max}"
     end
     response = HTTParty.post(request.url, :headers => request.headers, :body => request.content)
     result = soap.response(request, response.body).body_hash
-    result["QueryResult"]["ProsperObjects"]["ProsperObject"]
+    loans = result["QueryResult"]["ProsperObjects"]["ProsperObject"]
+    warn("Loans missed! too many #{min}..#{max}") if loans && loans.length == 2000
+    loans
   end
 end

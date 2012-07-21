@@ -19,6 +19,7 @@ describe Prosper do
   end
 
   describe "loans" do
+    it "should "
     it "should return all loans" do
       Prosper.login(ENV['PROSPERUSERNAME'], ENV['PROSPERPASSWORD'])
       loans = Prosper.loans
